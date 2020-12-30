@@ -192,6 +192,8 @@ FROM consistsof AS CO, product AS P, [order] AS O, SALES2012
 WHERE DATEPART(year,O.orderdate)=2012 AND P.productcode = CO.productcode AND O.ordercode = CO.ordercode
 GROUP BY DATEPART(month,O.orderdate)
 
+GO
+
 SELECT * FROM AVG_SALES_2012
 
 
@@ -208,3 +210,18 @@ SELECT AVG1.month AS month, AVG1.avg_sales AS AVG_CURRENT_MONTH,AVG(SALES2012.to
 FROM AVG_SALES_2012 AS AVG1 LEFT JOIN SALES2012 
 ON SALES2012.month < AVG1.month
 GROUP BY AVG1.month,AVG1.avg_sales
+
+
+
+/*Ερώτημα 13
+
+Δείξε τους κωδικούς των προϊόντων που όλοι οι προμηθευτές τους προέρχονται από την ίδια
+γεωγραφική περιοχή.*/
+
+SELECT DISTINCT P.productcode
+FROM product AS P, supplier AS supplier1, supply AS supply1
+WHERE P.productcode = supply1.productcode AND supply1.suppliercode = supplier1.suppliercode AND supplier1.geocode = ALL ( SELECT geocode
+																														  FROM supplier AS supplier2,supply as supply2
+																														  WHERE supplier2.suppliercode <> supplier1.suppliercode
+																														  AND supply2.suppliercode = supplier2.suppliercode
+																														  AND supply1.productcode =supply2.productcode)

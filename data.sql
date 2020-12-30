@@ -155,6 +155,34 @@ INSERT INTO consistsof VALUES(8,1,3)
 
 
 
+INSERT INTO supplier VALUES(78935412014,'Παπαστράτος',6989321455,'Άργος','Λέσβου',19,14899,1)
+INSERT INTO supplier VALUES(78952140364,'Μιχαηλίδης',6958452106,'Άργος','Χίου',58,14865,1)
+
+INSERT INTO supplier VALUES(41256301478,'Μιχαηλίδης',6957896548,'Τρίπολη','Χίου',58,15236,2)
+
+INSERT INTO supply VALUES(4,25,'αχλάδια','2020-12-30',1)
+INSERT INTO supply VALUES(5,32,'αχλάδια','2020-12-07',1)
+
+INSERT INTO supply VALUES(6,32,'αχλάδια','2020-12-07',1)
+DELETE
+FROM supply 
+WHERE suppliercode = 6
+INSERT INTO supply VALUES(2,32,'γιαούρτι','2020-12-07',3)
+INSERT INTO supply VALUES(6,59,'γιαούρτι','2020-12-07',3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 SELECT * FROM supplier
 SELECT * FROM supply
 SELECT * FROM category
