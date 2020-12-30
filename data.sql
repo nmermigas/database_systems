@@ -173,6 +173,39 @@ INSERT INTO supply VALUES(6,59,'γιαούρτι','2020-12-07',3)
 
 
 
+INSERT INTO product VALUES('μήλα','ροδόπης',15,4.00,1)
+INSERT INTO product VALUES('μπανάνες','σπάρτης',30,2.50,1)
+
+INSERT INTO supply VALUES(4,236,'μήλα','2020-05-30',4)
+INSERT INTO supply VALUES(1,100,'μήλα','2020-07-30',4)
+INSERT INTO supply VALUES(5,52,'μήλα','2020-08-30',4)
+
+INSERT INTO supply VALUES(5,52,'μήλα','2020-08-30',5)
+
+INSERT INTO [order] VALUES('2012-12-19','2012-12-22',2)
+INSERT INTO [order] VALUES('2012-12-19','2012-12-22',3)
+
+INSERT INTO consistsof VALUES(38,1,3)
+INSERT INTO consistsof VALUES(38,4,3)
+INSERT INTO consistsof VALUES(38,5,3)
+INSERT INTO consistsof VALUES(38,2,3)
+
+INSERT INTO consistsof VALUES(39,1,3)
+INSERT INTO consistsof VALUES(39,2,3)
+INSERT INTO consistsof VALUES(39,3,3)
+INSERT INTO consistsof VALUES(39,4,3)
+INSERT INTO consistsof VALUES(39,5,3)
+
+
+INSERT INTO [order] VALUES('2012-12-19','2012-12-22',3)
+INSERT INTO consistsof VALUES(40,2,5000)
+
+
+INSERT INTO [order] VALUES('2013-01-25','2013-01-29',3)
+INSERT INTO consistsof VALUES(41,4,5000)
+
+INSERT INTO [order] VALUES('2013-01-27','2013-01-29',2)
+INSERT INTO consistsof VALUES(42,3,2500)
 
 
 
@@ -185,12 +218,13 @@ INSERT INTO supply VALUES(6,59,'γιαούρτι','2020-12-07',3)
 
 SELECT * FROM supplier
 SELECT * FROM supply
+SELECT * FROM product
 SELECT * FROM category
 SELECT * FROM geo_area
 SELECT * FROM frequent_customer
 SELECT * FROM customer
 SELECT * FROM product
-SELECT * FROM [order] WHERE (DATEPART(month,orderdate)=6) AND DATEPART(year,orderdate)=2012
+SELECT * FROM [order]  /*(WHERE (DATEPART(month,orderdate)=6) AND DATEPART(year,orderdate)=2012 */
 SELECT * FROM consistsof
 SELECT * FROM payment
 
