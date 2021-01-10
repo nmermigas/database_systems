@@ -1,33 +1,44 @@
 USE DB52
 
-/*ερώτημα 1 */
-SELECT customercode, [name], ssn, phone, city,street, number, zip
+/*ερώτημα 1 
+Δείξε μία λίστα των πελατών με τον κωδικό τους, το ΑΦΜ τους, την επωνυμία τους, τη διευθυνσή
+τους και το τηλεφωνό τους.*/
+SELECT customercode, ssn, [name], phone, city,street, number, zip
 FROM customer
 
-/*ερώτημα 2 */
-SELECT customercode, amount
+/*ερώτημα 2 
+
+Για κάθε κωδικό πελάτη δείξε τις πληρωμές που έχει κάνει στο διάστημα 12/5/2012 εώς
+22/5/2012*/
+SELECT customercode, payment_date,  amount
 FROM payment
 WHERE payment_date >='2012-05-12' AND payment_date<='2012-05-22'
 
 /*ερώτημα 3 
+
+Για κάθε παραγγελία δείξε την ημερομηνία της, τον κωδικό της και τους κωδικούς των προϊόντων
+που αγοράστηκαν
 */
+
 SELECT O.orderdate,O.ordercode,C.productcode
 FROM [order] AS O, consistsof AS C
 WHERE O.ordercode = C.ordercode
 ORDER BY O.ordercode
 
 /*ερώτημα 4
-Για κάθε παραγγελία δείξε την ημερομηνία της, τον κωδικό της και τους κωδικούς των προϊόντων
-που αγοράστηκαν */
+
+Αύξησε την τιμή όλων των προϊόντων κατά 3% */
 
 UPDATE product
-SET price = 1.03 * PRICE 
+SET price = 1.03 * PRICE
 
 /*SELECT price FROM product*/
+
 
 /*ερώτημα 5
 
 Δείξε για κάθε μήνα του 2012 το σύνολο και το μέσο όρο των πληρωμών*/
+
 
 SELECT DATEPART(month,payment_date) AS month, SUM(amount) AS SUM, AVG(amount) AS AVG
 FROM payment
@@ -84,7 +95,7 @@ WHERE DATEPART(year,O.orderdate)=2012 AND P.productcode = CO.productcode AND O.o
 GROUP BY DATEPART(month,O.orderdate)
 GO
 
-SELECT * FROM SALES
+/*SELECT * FROM SALES*/
 
 GO
 CREATE VIEW YEAR_SALES(annual_sales) AS
@@ -93,7 +104,7 @@ FROM consistsof AS CO, product AS P, [order] AS O
 WHERE DATEPART(year,O.orderdate)=2012 AND P.productcode = CO.productcode AND O.ordercode = CO.ordercode
 GO
 
-SELECT * FROM YEAR_SALES
+/*SELECT * FROM YEAR_SALES*/
 
 SELECT SALES.month, CAST(SALES.total_sales AS FLOAT)/CAST(YEAR_SALES.annual_sales AS FLOAT) AS PERCENTAGE_OF_ANNUAL_SALES
 FROM SALES,YEAR_SALES
@@ -105,7 +116,7 @@ FROM SALES,YEAR_SALES
 όρο του μήνα.*/
 
 
-DROP VIEW MONTH_AVG
+/*DROP VIEW MONTH_AVG*/
 GO
 CREATE VIEW MONTH_AVG(year,month,monthly_avg) AS
 SELECT DATEPART(year,O.orderdate),DATEPART(month,O.orderdate), AVG(P.price * CO.quantity)
@@ -113,9 +124,10 @@ FROM consistsof AS CO, product AS P, [order] AS O
 WHERE P.productcode = CO.productcode AND O.ordercode = CO.ordercode
 GROUP BY DATEPART(month,O.orderdate),DATEPART(year,O.orderdate)
 
-SELECT * FROM MONTH_AVG
+/*SELECT * FROM MONTH_AVG*/
 
-DROP VIEW MONTHLY_PURCHASES
+/*DROP VIEW MONTHLY_PURCHASES*/
+
 GO
 CREATE VIEW MONTHLY_PURCHASES(customercode,year,month,monthly_purchases_avg) AS
 SELECT CU.customercode, DATEPART(year,O.orderdate),DATEPART(month,O.orderdate), AVG(P.price * CO.quantity)
@@ -123,7 +135,7 @@ FROM consistsof AS CO, product AS P, [order] AS O, customer AS CU
 WHERE P.productcode = CO.productcode AND O.ordercode = CO.ordercode AND CU.customercode = O.customercode
 GROUP BY DATEPART(month,O.orderdate),DATEPART(year,O.orderdate),CU.customercode
 
-SELECT * FROM MONTHLY_PURCHASES
+/*SELECT * FROM MONTHLY_PURCHASES*/
 
 SELECT MONTH_AVG.month, MONTH_AVG.year, COUNT(*) as count
 FROM MONTH_AVG AS month_avg, MONTHLY_PURCHASES AS monthly_purchases, customer AS CU
@@ -152,23 +164,24 @@ WHERE DATEPART(year,O.orderdate)=2011 AND P.productcode = CO.productcode AND O.o
 GROUP BY DATEPART(month,O.orderdate)
 GO
 
-SELECT SALES2012.month, SALES2012.total_sales AS sales2012, SALES2011.total_sales AS sales2011,((SALES2012.total_sales - SALES2011.total_sales) / SALES2011.total_sales) *100 as sales2012_compared_to_sales2011
+SELECT SALES2012.month, SALES2012.total_sales AS sales2012, SALES2011.total_sales AS sales2011,(SALES2012.total_sales/ SALES2011.total_sales) *100 as sales2012_compared_to_sales2011
 FROM SALES2012 LEFT JOIN SALES2011
 ON SALES2011.month = SALES2012.month AND SALES2011.total_sales<>0
 
 
-SELECT * FROM SALES2011
+/*SELECT * FROM SALES2011
 SELECT * FROM SALES2012
 
-DROP VIEW SALES2011,SALES2012
+DROP VIEW SALES2011,SALES2012*/
 
 
 /*Ερώτημα 12
 Δείξε για κάθε μήνα του 2012, το μέσο όρο πωλήσεων αυτού του μήνα και το μέσο όρο
 πωλήσεων κατά τους μήνες που προηγήθηκαν αυτού. */
 
-DROP VIEW AVG_SALES_2012
+/*DROP VIEW AVG_SALES_2012*/
 
+/* μέσος όρος συνολικών πωλήσεων */
 CREATE VIEW AVG_SALES_2012(month, avg_sales) AS
 SELECT DATEPART(month,O.orderdate), AVG(P.price * CO.quantity)
 FROM consistsof AS CO, product AS P, [order] AS O, SALES2012
@@ -177,18 +190,10 @@ GROUP BY DATEPART(month,O.orderdate)
 
 GO
 
-SELECT * FROM AVG_SALES_2012
+/*SELECT * FROM AVG_SALES_2012*/
+/*SELECT * FROM SALES2012*/
 
 
-SELECT * FROM SALES2012 
-
-/* μεσος ορος των μεσων ορων */
-SELECT AVG1.month AS month, AVG1.avg_sales AS AVG_CURRENT_MONTH,AVG(AVG2.avg_sales) AS PREVIOUS_AVG
-FROM AVG_SALES_2012 AS AVG1 LEFT JOIN AVG_SALES_2012 AS AVG2
-ON AVG2.month < AVG1.month
-GROUP BY AVG1.month,AVG1.avg_sales
-
-/* μεσος ορος συνολικών πωλήσεων */
 SELECT AVG1.month AS month, AVG1.avg_sales AS AVG_CURRENT_MONTH,SUM(SALES2012.total_sales/(AVG1.month -1)) AS PREVIOUS_AVG
 FROM AVG_SALES_2012 AS AVG1 LEFT JOIN SALES2012 
 ON SALES2012.month < AVG1.month
