@@ -51,7 +51,7 @@ public class DatabaseConnection {
             System.out.println("Update executed successfully.\n"
             					+ "Customer with customercode: " + custcode + " was deleted");
             System.exit(0);
-            
+            sc.close();
 
         } catch(Exception e) {
             System.out.println("Something went wrong/delete() " + e.getMessage());

@@ -15,7 +15,7 @@ AS
 	FROM customer
 	WHERE geocode = @geo_code
 	
-EXECUTE customersOfArea 2
+EXECUTE customersOfArea  2
 
 /* Ερώτημα 2
 
@@ -52,7 +52,7 @@ CLOSE CRS
 DEALLOCATE CRS
 END
 
-EXECUTE suppliesBetweenDates 3, '2020-08-30', '2020-12-30'
+EXECUTE suppliesBetweenDates 1, '2020-08-30', '2020-12-30'
 
 
 /* Ερώτημα 3
@@ -62,3 +62,5 @@ EXECUTE suppliesBetweenDates 3, '2020-08-30', '2020-12-30'
 διαγράφονται όλα τα σχετικά με τον πελάτη στοιχεία (παραγγελίες, κ.ο.κ.) */
 
 SELECT * FROM [order] WHERE ordercode = 5
+
+SELECT * FROM customer
