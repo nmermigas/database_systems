@@ -6,7 +6,7 @@ public class DatabaseConnection {
 
     public static void connect() throws Exception {
         try {
-            String url = "jdbc:sqlserver://sqls.dmst.aueb.gr:1433;";
+            String url = "jdbc:sqlserver://sql.dmst.aueb.gr:1433;";
             String db = "databaseName=DB52;";
             String user = "user=G552;";
             String password = "password=385te3vf934;";

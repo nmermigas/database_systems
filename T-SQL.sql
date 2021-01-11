@@ -61,4 +61,4 @@ EXECUTE suppliesBetweenDates 3, '2020-08-30', '2020-12-30'
 κατόπιν θα τον διαγράφει. Εάν δεν έχετε ορίσει περιορισμούς ακεραιότητας, φροντίστε να
 διαγράφονται όλα τα σχετικά με τον πελάτη στοιχεία (παραγγελίες, κ.ο.κ.) */
 
-SELECT name FROM customer WHERE customercode = 3
+SELECT * FROM [order] WHERE ordercode = 5
