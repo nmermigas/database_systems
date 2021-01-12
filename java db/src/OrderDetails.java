@@ -46,32 +46,35 @@ public class OrderDetails {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             System.out.println("The details for the order with the ordercode " + ordercode + " are the following:");
-            //System.out.println(statement.executeQuery(query));
+            System.out.println(" ");
             
             resultSet.next();
            	System.out.println("Order code: " + resultSet.getInt("ordercode"));
            	System.out.println("Date of order: " + resultSet.getDate("orderdate"));
            	System.out.println("Date of shipping: " + resultSet.getDate("shippingdate"));
            	System.out.println("Customer code: " + resultSet.getInt("customercode"));
+           	System.out.println("----------------------------------------------------------------------------------------------------------------");
            	
-           	query = "SELECT C.productcode, P.[name], P.description, P.price, C.quantity  FROM " + " consistsof AS C, [order] AS O, product AS P"
-            		+ " WHERE C.ordercode = O.ordercode AND C.productcode = P.productcode AND O.ordercode = " + ordercode; 
+           	query = "SELECT C.productcode, P.[name], P.description, P.price, C.quantity, P.price * C.quantity AS Product_Sum  FROM "
+           			+ " consistsof AS C, [order] AS O, product AS P"
+            		+ " WHERE C.ordercode = O.ordercode AND C.productcode = P.productcode AND O.ordercode = " + ordercode;
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
             
-            System.out.println("Product code     Product name     Product description     Product price     Product quantity");
+            System.out.println("Product code     Product name     Product description     Product price     Product quantity     Product Total");
             while(resultSet.next()) {
-            	System.out.println(resultSet.getInt("productcode") +"             "+ resultSet.getString("name")
-            			+" "+ resultSet.getString("description") +" "+ resultSet.getDouble("price") +" "+ resultSet.getInt("quantity"));
-            	
+            	System.out.printf("%d" +"%24s" +"%18s" +"%24.3f" +"%20d" +"%20.3f",resultSet.getInt("productcode"),resultSet.getString("name")
+            			,resultSet.getString("description"),resultSet.getDouble("price") ,resultSet.getInt("quantity")
+            			,resultSet.getDouble("Product_Sum"));
+            	System.out.println("");
             }
-            System.out.println("---------------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------");
             query = "SELECT SUM(P.price * C.quantity) AS SUM FROM product AS P, consistsof AS C, [order] AS O"
             		+ " WHERE P.productcode = C.productcode AND C.ordercode = O.ordercode AND O.ordercode = " + ordercode;
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
             while(resultSet.next()) {
-            	System.out.println("TOTAL: " + resultSet.getDouble("SUM"));
+            	System.out.printf("TOTAL"  + "%103.3f",resultSet.getDouble("SUM"));
             }
             
             
